@@ -11,11 +11,17 @@ const API = 'https://acme-users-api-rev.herokuapp.com/api';
 function App() {
   const [params, setParams] = useState(qs.parse(getHash()));
   const [users, setUsers] = useState([]);
+  let count = 0
 
   useEffect(() => {
     axios
       .get(`${API}/users`)
-      .then(response => setUsers([...users, response.data]));
+      .then(response => {
+        count = response.data.count
+
+        setUsers([...response.data.users])
+        console.log(response)
+      });
   }, []);
 
   console.log(users);
@@ -30,7 +36,7 @@ function App() {
     <div>
       <Nav users={users} />
       {params.view === undefined && <Home />}
-      {params.view === 'users' && <Users users={users} />}
+      {params.view === 'users' && <Users users={users} count={count} />}
     </div>
   );
 }
