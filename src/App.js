@@ -29,10 +29,12 @@ function App() {
     setParams(qs.parse(getHash()));
   }, []);
   return (
-    <div>
+    <div className="container">
       <Nav users={users} />
       {params.view === undefined && <Home />}
-      {params.view === 'users' && <Users users={users} count={count} />}
+      {params.view === 'users' && (
+        <Users users={users} count={count} params={params} />
+      )}
     </div>
   );
 }
